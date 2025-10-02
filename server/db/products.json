@@ -1,0 +1,42 @@
+[
+  {
+    "id": "1",
+    "name": "Taladro TOTAL 20V",
+    "sku": "DRL-TTL-001",
+    "price": 18950,
+    "stock": 100,
+    "category": "Herramientas"
+  },
+  {
+    "id": "2",
+    "name": "Aceite de cocina girasol",
+    "sku": "OIL-GRS-002",
+    "price": 4570,
+    "stock": 50,
+    "category": "Alimentos"
+  },
+  {
+    "id": "3",
+    "name": "Teclado Mecánico Redragon",
+    "sku": "KEY-RDG-003",
+    "price": 27900,
+    "stock": 30,
+    "category": "Periféricos"
+  },
+  {
+    "id": "4",
+    "name": "Acetaminofén 500mg",
+    "sku": "MED-ACM-004",
+    "price": 200,
+    "stock": 200,
+    "category": "Medicamentos"
+  },
+  {
+    "id": "5",
+    "name": "Bolso nike gris 90L",
+    "sku": "BAG-NKE-005",
+    "price": 16990,
+    "stock": 15,
+    "category": "Accesorios"
+  }
+]

@@ -1,0 +1,1 @@
+// Intermediador entre respuesta y consulta a la base de datos USERS
