@@ -35,9 +35,7 @@ export const createProduct = async (productData) => {
   return newProduct;
 };
 
-// TO-DO: Implementar updateProduct y deleteProduct
-
-
+// Funcion para actualizar un producto existente
 export const updateProduct = async (id, productData) => {
   const products = await getAllProducts();
   const index = products.findIndex(p => p.id === id);

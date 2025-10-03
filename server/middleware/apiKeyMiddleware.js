@@ -1,3 +1,5 @@
+
+// Middleware para validar API Key en las solicitudes
 export const apiKeyMiddleware = (req, res, next) => {
   const apiKey = req.headers['x-api-key'];
   const validApiKey = process.env.API_KEY || "mi_api_key_secreta";
