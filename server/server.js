@@ -5,21 +5,26 @@ import dotenv from "dotenv";
 import productRoutes from "./routes/productRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 
+import { errorHandler } from "./middleware/errorMiddleware.js";
+
+// Cargar variables de entorno
 dotenv.config();
 
+// Configuración del servidor
 const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Rutas
 app.use("/products", productRoutes);
 app.use("/auth", authRoutes);
 
-app.use((err, req, res, next) => {
-  console.error(err);
-  res.status(err.statusCode || 500).json({ message: err.message || "Internal server error" });
-});
+// Middleware para manejo de errores
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 3000;
+
+// Iniciar el servidor
 app.listen(PORT, () => {
-  console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
