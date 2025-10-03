@@ -8,13 +8,13 @@ import { successResponse } from '../utils/responseHandler.js';
  * Obtiene todos los productos.
  */
 export const getProducts = async (req, res, next) => {
-    try {
-        const { page = 1, limit = 10 } = req.query; // Paginacion
-        const products = await productService.getAllProducts({ page, limit });
-        return successResponse(res, products, "Products retrieved successfully");
-    } catch (error) {
-        next(error);
-    }
+  try {
+    const { page = 1, limit = 10 } = req.query; // Paginacion
+    const products = await productService.getAllProducts({ page, limit });
+    return successResponse(res, products, "Products retrieved successfully");
+  } catch (error) {
+    next(error);
+  }
 };
 
 /**
@@ -22,16 +22,13 @@ export const getProducts = async (req, res, next) => {
  * Obtiene un producto por su ID.
  */
 export const getProductById = async (req, res, next) => {
-    try {
-        const { id } = req.params;
-        const product = await productService.getProductById(id);
-        if (!product) {
-            return res.status(404).json({ message: "Product not found" });
-        }
-        return successResponse(res, product, "Product retrieved successfully");
-    } catch (error) {
-        next(error);
-    }
+  try {
+    const { id } = req.params;
+    const product = await productService.getProductById(id);
+    return successResponse(res, product, "Product retrieved successfully");
+  } catch (error) {
+    next(error);
+  }
 };
 
 /**
@@ -39,13 +36,13 @@ export const getProductById = async (req, res, next) => {
  * Crea un nuevo producto. Requiere autenticacion JWT y rol de editor o admin.
  */
 export const createProduct = async (req, res, next) => {
-    try {
-        const productData = req.body;
-        const product = await productService.createProduct(productData);
-        return successResponse(res, product, "Product created successfully");
-    } catch (error) {
-        next(error);
-    }
+  try {
+    const productData = req.body;
+    const product = await productService.createProduct(productData);
+    return successResponse(res, product, "Product created successfully", 201);
+  } catch (error) {
+    next(error);
+  }
 };
 
 /**
@@ -53,17 +50,14 @@ export const createProduct = async (req, res, next) => {
  * Actualiza un producto existente. Requiere autenticacion JWT y rol de editor o admin.
  */
 export const updateProduct = async (req, res, next) => {
-    try {
-        const { id } = req.params;
-        const productData = req.body;
-        const updatedProduct = await productService.updateProduct(id, productData);
-        if (!updatedProduct) {
-            return res.status(404).json({ message: "Product not found" });
-        }
-        return successResponse(res, updatedProduct, "Product updated successfully");
-    } catch (error) {
-        next(error);
-    }
+  try {
+    const { id } = req.params;
+    const productData = req.body;
+    const updatedProduct = await productService.updateProduct(id, productData);
+    return successResponse(res, updatedProduct, "Product updated successfully");
+  } catch (error) {
+    next(error);
+  }
 };
 
 /**
@@ -71,14 +65,11 @@ export const updateProduct = async (req, res, next) => {
  * Elimina un producto. Requiere autenticacion JWT y rol de admin.
  */
 export const deleteProduct = async (req, res, next) => {
-    try {
-        const { id } = req.params;
-        const deleted = await productService.deleteProduct(id);
-        if (!deleted) {
-            return res.status(404).json({ message: "Product not found" });
-        }
-        return successResponse(res, null, "Product deleted successfully");
-    } catch (error) {
-        next(error);
-    }
+  try {
+    const { id } = req.params;
+    await productService.deleteProduct(id);
+    return successResponse(res, null, "Product deleted successfully", 204);
+  } catch (error) {
+    next(error);
+  }
 };

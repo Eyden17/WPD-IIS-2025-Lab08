@@ -4,24 +4,51 @@ const dbPath = path.resolve("db/products.json");
 
 // Funcion para leer todos los productos
 export const getAllProducts = async () => {
-  const data = await fs.readFile(dbPath, "utf-8");
-  return JSON.parse(data);
+  try {
+    const data = await fs.readFile(dbPath, "utf-8");
+    return JSON.parse(data);
+  } catch (err) {
+    throw { statusCode: 500, message: "Error reading database" };
+  }
 };
 
 // Funcion para obtener un producto por su ID
 export const getProductById = async (id) => {
   const products = await getAllProducts();
-  return products.find(p => p.id === id);
+  const product = products.find(p => p.id === id);
+
+  if (!product) {
+    throw { statusCode: 404, message: "Product not found" };
+  }
+
+  return product;
 };
 
 // Funcion para crear un nuevo producto
 export const createProduct = async (productData) => {
   const products = await getAllProducts();
 
-  // Validaciones sencillas
-  if (!productData.name || !productData.sku || productData.price <= 0 || productData.stock < 0) {
-    throw { statusCode: 422, message: "Invalid product data" };
+  // Validaciones de datos
+  if (!productData || typeof productData !== "object") {
+    throw { statusCode: 400, message: "Invalid product data" };
   }
+
+  if (!productData.name || typeof productData.name !== "string") {
+    throw { statusCode: 422, message: "Product name is required" };
+  }
+
+  if (!productData.sku || typeof productData.sku !== "string") {
+    throw { statusCode: 422, message: "Product SKU is required" };
+  }
+
+  if (typeof productData.price !== "number" || productData.price <= 0) {
+    throw { statusCode: 422, message: "Price must be a positive number" };
+  }
+
+  if (typeof productData.stock !== "number" || productData.stock < 0) {
+    throw { statusCode: 422, message: "Stock must be a number greater than or equal to 0" };
+  }
+
   if (products.find(p => p.sku === productData.sku)) {
     throw { statusCode: 409, message: "SKU already exists" };
   }
@@ -31,37 +58,72 @@ export const createProduct = async (productData) => {
   products.push(newProduct);
 
   // Guardar en el JSON
-  await fs.writeFile(dbPath, JSON.stringify(products, null, 2));
+  try {
+    await fs.writeFile(dbPath, JSON.stringify(products, null, 2));
+  } catch (err) {
+    throw { statusCode: 500, message: "Error saving to database" };
+  }
+
   return newProduct;
 };
 
 // Funcion para actualizar un producto existente
 export const updateProduct = async (id, productData) => {
+  if (!id) {
+    throw { statusCode: 400, message: "Product ID is required" };
+  }
+
   const products = await getAllProducts();
   const index = products.findIndex(p => p.id === id);
 
-  if (index === -1) return null;
-
+  if (index === -1) {
+    throw { statusCode: 404, message: "Product not found" };
+  }
 
   if (productData.sku && products.some(p => p.sku === productData.sku && p.id !== id)) {
-    throw { statusCode: 409, message: "SKU already exists" };
+    throw { statusCode: 409, message: "SKU already exists in another product" };
+  }
+
+  if (productData.price !== undefined && (typeof productData.price !== "number" || productData.price <= 0)) {
+    throw { statusCode: 422, message: "Price must be a positive number" };
+  }
+
+  if (productData.stock !== undefined && (typeof productData.stock !== "number" || productData.stock < 0)) {
+    throw { statusCode: 422, message: "Stock must be a number greater than or equal to 0" };
   }
 
   // Mezclamos el producto existente con los nuevos datos
   products[index] = { ...products[index], ...productData };
 
-  await fs.writeFile(dbPath, JSON.stringify(products, null, 2));
+  try {
+    await fs.writeFile(dbPath, JSON.stringify(products, null, 2));
+  } catch (err) {
+    throw { statusCode: 500, message: "Error updating database" };
+  }
+
   return products[index];
 };
 
 // Eliminar producto
 export const deleteProduct = async (id) => {
+  if (!id) {
+    throw { statusCode: 400, message: "Product ID is required" };
+  }
+
   const products = await getAllProducts();
   const index = products.findIndex(p => p.id === id);
 
-  if (index === -1) return false;
+  if (index === -1) {
+    throw { statusCode: 404, message: "Product not found" };
+  }
 
   products.splice(index, 1);
-  await fs.writeFile(dbPath, JSON.stringify(products, null, 2));
+
+  try {
+    await fs.writeFile(dbPath, JSON.stringify(products, null, 2));
+  } catch (err) {
+    throw { statusCode: 500, message: "Error deleting from database" };
+  }
+
   return true;
 };
