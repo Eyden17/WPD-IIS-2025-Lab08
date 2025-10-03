@@ -37,14 +37,14 @@ export const createProduct = async (productData) => {
 
 // TO-DO: Implementar updateProduct y deleteProduct
 
-// Actualizar producto existente
+
 export const updateProduct = async (id, productData) => {
   const products = await getAllProducts();
   const index = products.findIndex(p => p.id === id);
 
   if (index === -1) return null;
 
-  // Validaciones básicas (no obligatorias todas en update)
+
   if (productData.sku && products.some(p => p.sku === productData.sku && p.id !== id)) {
     throw { statusCode: 409, message: "SKU already exists" };
   }
