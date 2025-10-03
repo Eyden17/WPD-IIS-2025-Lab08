@@ -9,8 +9,8 @@ import {
 } from "../controller/productController.js";
 
 
-import { apiKeyMiddleware } from "../middlewares/apiKeyMiddleware.js";
-import { authMiddleware, roleMiddleware } from "../middlewares/authMiddleware.js";
+import { apiKeyMiddleware } from "../middleware/apiKeyMiddleware.js";
+import { authMiddleware, roleMiddleware } from "../middleware/authMiddleware.js";
 
 
 const router = express.Router();

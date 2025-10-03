@@ -1,27 +1,25 @@
-import express from 'express';
-//import authRoutes from './routes/authRoutes.js';
-import productRoutes from './routes/productRoutes.js';
-import { errorHandler } from './middleware/errorMiddleware.js';
-import cors from 'cors';
+import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
+
+import productRoutes from "./routes/productRoutes.js";
+import authRoutes from "./routes/authRoutes.js";
+
+dotenv.config();
 
 const app = express();
-
-// Middleware
 app.use(cors());
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
-// Rutas
-// TO-DO: Descomentar cuando se implemente autenticacion
-//app.use('/auth', authRoutes);
 app.use("/products", productRoutes);
+app.use("/auth", authRoutes);
 
-// Manejo de errores
-app.use(errorHandler);
+app.use((err, req, res, next) => {
+  console.error(err);
+  res.status(err.statusCode || 500).json({ message: err.message || "Internal server error" });
+});
 
 const PORT = process.env.PORT || 3000;
-
-// Arrancar el servidor
 app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
 });
