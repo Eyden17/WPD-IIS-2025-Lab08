@@ -36,3 +36,34 @@ export const createProduct = async (productData) => {
 };
 
 // TO-DO: Implementar updateProduct y deleteProduct
+
+// Actualizar producto existente
+export const updateProduct = async (id, productData) => {
+  const products = await getAllProducts();
+  const index = products.findIndex(p => p.id === id);
+
+  if (index === -1) return null;
+
+  // Validaciones básicas (no obligatorias todas en update)
+  if (productData.sku && products.some(p => p.sku === productData.sku && p.id !== id)) {
+    throw { statusCode: 409, message: "SKU already exists" };
+  }
+
+  // Mezclamos el producto existente con los nuevos datos
+  products[index] = { ...products[index], ...productData };
+
+  await fs.writeFile(dbPath, JSON.stringify(products, null, 2));
+  return products[index];
+};
+
+// Eliminar producto
+export const deleteProduct = async (id) => {
+  const products = await getAllProducts();
+  const index = products.findIndex(p => p.id === id);
+
+  if (index === -1) return false;
+
+  products.splice(index, 1);
+  await fs.writeFile(dbPath, JSON.stringify(products, null, 2));
+  return true;
+};
