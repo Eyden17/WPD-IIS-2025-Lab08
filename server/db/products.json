@@ -32,11 +32,13 @@
     "category": "Medicamentos"
   },
   {
-    "id": "5",
-    "name": "Bolso nike gris 90L",
-    "sku": "BAG-NKE-005",
-    "price": 16990,
-    "stock": 15,
-    "category": "Accesorios"
+    "id": "1759533506007",
+    "username": "Eyden",
+    "role": "admin",
+    "name": "Coca-Cola 1.5L",
+    "sku": "COC-BEB-006",
+    "price": 1500,
+    "stock": 200,
+    "category": "Bebidas"
   }
 ]
