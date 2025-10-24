@@ -2,11 +2,34 @@ import fs from "fs/promises";
 import path from "path";
 const dbPath = path.resolve("db/products.json");
 
+// Helper: leer todo el array crudo
+async function readAll() {
+  const data = await fs.readFile(dbPath, "utf-8");
+  return JSON.parse(data); // array de productos
+}
+
 // Funcion para leer todos los productos
-export const getAllProducts = async () => {
+export const getAllProducts = async ({ page = 1, limit = 10 }) => {
   try {
-    const data = await fs.readFile(dbPath, "utf-8");
-    return JSON.parse(data);
+    const products = await readAll();
+
+    const pageNum = parseInt(page, 10);
+    const limitNum = parseInt(limit, 10);
+
+    const startIndex = (pageNum - 1) * limitNum;
+    const endIndex = startIndex + limitNum;
+
+    const paginatedProducts = products.slice(startIndex, endIndex);
+
+    const totalPages = Math.ceil(products.length / limitNum);
+
+    return {
+      products: paginatedProducts,
+      page: pageNum,
+      limit: limitNum,
+      totalPages,
+      totalItems: products.length,
+    };
   } catch (err) {
     throw { statusCode: 500, message: "Error reading database" };
   }
@@ -14,19 +37,17 @@ export const getAllProducts = async () => {
 
 // Funcion para obtener un producto por su ID
 export const getProductById = async (id) => {
-  const products = await getAllProducts();
-  const product = products.find(p => p.id === id);
-
+  const products = await readAll();
+  const product = products.find((p) => String(p.id) === String(id));
   if (!product) {
-    throw { statusCode: 404, message: "Product not found" };
+    throw { statusCode: 404, message: `Product with ID ${id} not found` };
   }
-
   return product;
 };
 
 // Funcion para crear un nuevo producto
 export const createProduct = async (productData) => {
-  const products = await getAllProducts();
+  const products = await readAll();
 
   // Validaciones de datos
   if (!productData || typeof productData !== "object") {
@@ -73,7 +94,7 @@ export const updateProduct = async (id, productData) => {
     throw { statusCode: 400, message: "Product ID is required" };
   }
 
-  const products = await getAllProducts();
+  const products = await readAll();
   const index = products.findIndex(p => p.id === id);
 
   if (index === -1) {
@@ -110,7 +131,7 @@ export const deleteProduct = async (id) => {
     throw { statusCode: 400, message: "Product ID is required" };
   }
 
-  const products = await getAllProducts();
+  const products = await readAll();
   const index = products.findIndex(p => p.id === id);
 
   if (index === -1) {

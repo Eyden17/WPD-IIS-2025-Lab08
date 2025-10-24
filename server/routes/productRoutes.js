@@ -29,7 +29,6 @@ const router = express.Router();
 router.get("/", apiKeyMiddleware, getProducts);
 
 // Detalle de un producto por ID (ej: GET /products/123)
-
 router.get("/:id", apiKeyMiddleware, getProductById);
 
 // Crea un producto nuevo (ej: POST /products)

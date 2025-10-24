@@ -1,42 +1,82 @@
 [
   {
-    "id": "1",
-    "name": "Taladro TOTAL 20V",
-    "sku": "DRL-TTL-001",
-    "price": 18950,
-    "stock": 100,
-    "category": "Herramientas"
+    "id": "6",
+    "name": "Lámpara LED recargable 15W",
+    "sku": "LAM-LED-006",
+    "price": 8250,
+    "stock": 60,
+    "category": "Iluminación"
   },
   {
-    "id": "2",
-    "name": "Aceite de cocina girasol",
-    "sku": "OIL-GRS-002",
-    "price": 4570,
-    "stock": 50,
+    "id": "7",
+    "name": "Café molido 500g",
+    "sku": "CAF-MLD-007",
+    "price": 3950,
+    "stock": 120,
     "category": "Alimentos"
   },
   {
-    "id": "3",
-    "name": "Teclado Mecánico Redragon",
-    "sku": "KEY-RDG-003",
-    "price": 27900,
-    "stock": 30,
+    "id": "8",
+    "name": "Mouse inalámbrico Logitech M185",
+    "sku": "MSE-LOG-008",
+    "price": 7200,
+    "stock": 80,
     "category": "Periféricos"
   },
   {
-    "id": "4",
-    "name": "Acetaminofén 500mg",
-    "sku": "MED-ACM-004",
-    "price": 200,
-    "stock": 200,
+    "id": "9",
+    "name": "Guantes de trabajo reforzados",
+    "sku": "GLV-WRK-009",
+    "price": 1850,
+    "stock": 150,
+    "category": "Herramientas"
+  },
+  {
+    "id": "10",
+    "name": "Paracetamol 500mg x20",
+    "sku": "MED-PCT-010",
+    "price": 250,
+    "stock": 300,
     "category": "Medicamentos"
   },
   {
-    "id": "5",
-    "name": "Bolso nike gris 90L",
-    "sku": "BAG-NKE-005",
-    "price": 16990,
-    "stock": 15,
-    "category": "Accesorios"
+    "id": "11",
+    "name": "Audífonos Bluetooth JBL Tune 510BT",
+    "sku": "AUD-JBL-011",
+    "price": 29500,
+    "stock": 40,
+    "category": "Periféricos"
+  },
+  {
+    "id": "12",
+    "name": "Cereal de avena integral 1kg",
+    "sku": "CER-AVE-012",
+    "price": 3150,
+    "stock": 90,
+    "category": "Alimentos"
+  },
+  {
+    "id": "13",
+    "name": "Desinfectante multiusos 1L",
+    "sku": "CLN-MUL-013",
+    "price": 2100,
+    "stock": 110,
+    "category": "Limpieza"
+  },
+  {
+    "id": "14",
+    "name": "Botella de agua Alpina 600ml",
+    "sku": "BOT-ALP-014",
+    "price": 900,
+    "stock": 250,
+    "category": "Bebidas"
+  },
+  {
+    "id": "15",
+    "name": "Martillo de acero 16oz",
+    "sku": "HAM-STR-015",
+    "price": 5600,
+    "stock": 75,
+    "category": "Herramientas"
   }
 ]

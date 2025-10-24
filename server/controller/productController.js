@@ -9,9 +9,9 @@ import { successResponse } from '../utils/responseHandler.js';
  */
 export const getProducts = async (req, res, next) => {
   try {
-    const { page = 1, limit = 10 } = req.query; // Paginacion
+    const { page = 1, limit = 10 } = req.query; // Paginación
     const products = await productService.getAllProducts({ page, limit });
-    return successResponse(res, products, "Products retrieved successfully");
+    return successResponse(req, res, products, "Products retrieved successfully");
   } catch (error) {
     next(error);
   }
@@ -25,7 +25,7 @@ export const getProductById = async (req, res, next) => {
   try {
     const { id } = req.params;
     const product = await productService.getProductById(id);
-    return successResponse(res, product, "Product retrieved successfully");
+    return successResponse(req, res, product, "Product retrieved successfully");
   } catch (error) {
     next(error);
   }
@@ -39,7 +39,7 @@ export const createProduct = async (req, res, next) => {
   try {
     const productData = req.body;
     const product = await productService.createProduct(productData);
-    return successResponse(res, product, "Product created successfully", 201);
+    return successResponse(req, res, product, "Product created successfully");
   } catch (error) {
     next(error);
   }
@@ -54,7 +54,7 @@ export const updateProduct = async (req, res, next) => {
     const { id } = req.params;
     const productData = req.body;
     const updatedProduct = await productService.updateProduct(id, productData);
-    return successResponse(res, updatedProduct, "Product updated successfully");
+    return successResponse(req, res, updatedProduct, "Product updated successfully");
   } catch (error) {
     next(error);
   }
@@ -68,7 +68,7 @@ export const deleteProduct = async (req, res, next) => {
   try {
     const { id } = req.params;
     await productService.deleteProduct(id);
-    return successResponse(res, null, "Product deleted successfully", 204);
+    return successResponse(req, res, null, "Product deleted successfully");
   } catch (error) {
     next(error);
   }
